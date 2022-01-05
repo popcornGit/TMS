@@ -1,0 +1,7 @@
+spring:
+  cloud:
+    nacos:
+      username: tms
+      password: 123456
+      discovery:
+        server-addr:
