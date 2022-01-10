@@ -1,0 +1,416 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.runone.pinda.mbg.mapper.DTenantMapper">
+  <resultMap id="BaseResultMap" type="com.runone.pinda.mbg.model.DTenant">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="code" jdbcType="VARCHAR" property="code" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="type" jdbcType="VARCHAR" property="type" />
+    <result column="status" jdbcType="VARCHAR" property="status" />
+    <result column="readonly" jdbcType="BIT" property="readonly" />
+    <result column="duty" jdbcType="VARCHAR" property="duty" />
+    <result column="expiration_time" jdbcType="TIMESTAMP" property="expirationTime" />
+    <result column="logo" jdbcType="VARCHAR" property="logo" />
+    <result column="describe_" jdbcType="VARCHAR" property="describe" />
+    <result column="password_expire" jdbcType="INTEGER" property="passwordExpire" />
+    <result column="is_multiple_login" jdbcType="BIT" property="isMultipleLogin" />
+    <result column="password_error_num" jdbcType="INTEGER" property="passwordErrorNum" />
+    <result column="password_error_lock_time" jdbcType="VARCHAR" property="passwordErrorLockTime" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="create_user" jdbcType="BIGINT" property="createUser" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="update_user" jdbcType="BIGINT" property="updateUser" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, code, name, type, status, readonly, duty, expiration_time, logo, describe_, password_expire, 
+    is_multiple_login, password_error_num, password_error_lock_time, create_time, create_user, 
+    update_time, update_user
+  </sql>
+  <select id="selectByExample" parameterType="com.runone.pinda.mbg.model.DTenantExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from d_tenant
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from d_tenant
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from d_tenant
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.runone.pinda.mbg.model.DTenantExample">
+    delete from d_tenant
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.runone.pinda.mbg.model.DTenant">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into d_tenant (code, name, type, 
+      status, readonly, duty, 
+      expiration_time, logo, describe_, 
+      password_expire, is_multiple_login, password_error_num, 
+      password_error_lock_time, create_time, create_user, 
+      update_time, update_user)
+    values (#{code,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{type,jdbcType=VARCHAR}, 
+      #{status,jdbcType=VARCHAR}, #{readonly,jdbcType=BIT}, #{duty,jdbcType=VARCHAR}, 
+      #{expirationTime,jdbcType=TIMESTAMP}, #{logo,jdbcType=VARCHAR}, #{describe,jdbcType=VARCHAR}, 
+      #{passwordExpire,jdbcType=INTEGER}, #{isMultipleLogin,jdbcType=BIT}, #{passwordErrorNum,jdbcType=INTEGER}, 
+      #{passwordErrorLockTime,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{createUser,jdbcType=BIGINT}, 
+      #{updateTime,jdbcType=TIMESTAMP}, #{updateUser,jdbcType=BIGINT})
+  </insert>
+  <insert id="insertSelective" parameterType="com.runone.pinda.mbg.model.DTenant">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into d_tenant
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="code != null">
+        code,
+      </if>
+      <if test="name != null">
+        name,
+      </if>
+      <if test="type != null">
+        type,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+      <if test="readonly != null">
+        readonly,
+      </if>
+      <if test="duty != null">
+        duty,
+      </if>
+      <if test="expirationTime != null">
+        expiration_time,
+      </if>
+      <if test="logo != null">
+        logo,
+      </if>
+      <if test="describe != null">
+        describe_,
+      </if>
+      <if test="passwordExpire != null">
+        password_expire,
+      </if>
+      <if test="isMultipleLogin != null">
+        is_multiple_login,
+      </if>
+      <if test="passwordErrorNum != null">
+        password_error_num,
+      </if>
+      <if test="passwordErrorLockTime != null">
+        password_error_lock_time,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="createUser != null">
+        create_user,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
+      <if test="updateUser != null">
+        update_user,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="code != null">
+        #{code,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null">
+        #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="readonly != null">
+        #{readonly,jdbcType=BIT},
+      </if>
+      <if test="duty != null">
+        #{duty,jdbcType=VARCHAR},
+      </if>
+      <if test="expirationTime != null">
+        #{expirationTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="logo != null">
+        #{logo,jdbcType=VARCHAR},
+      </if>
+      <if test="describe != null">
+        #{describe,jdbcType=VARCHAR},
+      </if>
+      <if test="passwordExpire != null">
+        #{passwordExpire,jdbcType=INTEGER},
+      </if>
+      <if test="isMultipleLogin != null">
+        #{isMultipleLogin,jdbcType=BIT},
+      </if>
+      <if test="passwordErrorNum != null">
+        #{passwordErrorNum,jdbcType=INTEGER},
+      </if>
+      <if test="passwordErrorLockTime != null">
+        #{passwordErrorLockTime,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createUser != null">
+        #{createUser,jdbcType=BIGINT},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateUser != null">
+        #{updateUser,jdbcType=BIGINT},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.runone.pinda.mbg.model.DTenantExample" resultType="java.lang.Long">
+    select count(*) from d_tenant
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update d_tenant
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=BIGINT},
+      </if>
+      <if test="record.code != null">
+        code = #{record.code,jdbcType=VARCHAR},
+      </if>
+      <if test="record.name != null">
+        name = #{record.name,jdbcType=VARCHAR},
+      </if>
+      <if test="record.type != null">
+        type = #{record.type,jdbcType=VARCHAR},
+      </if>
+      <if test="record.status != null">
+        status = #{record.status,jdbcType=VARCHAR},
+      </if>
+      <if test="record.readonly != null">
+        readonly = #{record.readonly,jdbcType=BIT},
+      </if>
+      <if test="record.duty != null">
+        duty = #{record.duty,jdbcType=VARCHAR},
+      </if>
+      <if test="record.expirationTime != null">
+        expiration_time = #{record.expirationTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.logo != null">
+        logo = #{record.logo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.describe != null">
+        describe_ = #{record.describe,jdbcType=VARCHAR},
+      </if>
+      <if test="record.passwordExpire != null">
+        password_expire = #{record.passwordExpire,jdbcType=INTEGER},
+      </if>
+      <if test="record.isMultipleLogin != null">
+        is_multiple_login = #{record.isMultipleLogin,jdbcType=BIT},
+      </if>
+      <if test="record.passwordErrorNum != null">
+        password_error_num = #{record.passwordErrorNum,jdbcType=INTEGER},
+      </if>
+      <if test="record.passwordErrorLockTime != null">
+        password_error_lock_time = #{record.passwordErrorLockTime,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createTime != null">
+        create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.createUser != null">
+        create_user = #{record.createUser,jdbcType=BIGINT},
+      </if>
+      <if test="record.updateTime != null">
+        update_time = #{record.updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.updateUser != null">
+        update_user = #{record.updateUser,jdbcType=BIGINT},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update d_tenant
+    set id = #{record.id,jdbcType=BIGINT},
+      code = #{record.code,jdbcType=VARCHAR},
+      name = #{record.name,jdbcType=VARCHAR},
+      type = #{record.type,jdbcType=VARCHAR},
+      status = #{record.status,jdbcType=VARCHAR},
+      readonly = #{record.readonly,jdbcType=BIT},
+      duty = #{record.duty,jdbcType=VARCHAR},
+      expiration_time = #{record.expirationTime,jdbcType=TIMESTAMP},
+      logo = #{record.logo,jdbcType=VARCHAR},
+      describe_ = #{record.describe,jdbcType=VARCHAR},
+      password_expire = #{record.passwordExpire,jdbcType=INTEGER},
+      is_multiple_login = #{record.isMultipleLogin,jdbcType=BIT},
+      password_error_num = #{record.passwordErrorNum,jdbcType=INTEGER},
+      password_error_lock_time = #{record.passwordErrorLockTime,jdbcType=VARCHAR},
+      create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      create_user = #{record.createUser,jdbcType=BIGINT},
+      update_time = #{record.updateTime,jdbcType=TIMESTAMP},
+      update_user = #{record.updateUser,jdbcType=BIGINT}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.runone.pinda.mbg.model.DTenant">
+    update d_tenant
+    <set>
+      <if test="code != null">
+        code = #{code,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null">
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null">
+        type = #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        status = #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="readonly != null">
+        readonly = #{readonly,jdbcType=BIT},
+      </if>
+      <if test="duty != null">
+        duty = #{duty,jdbcType=VARCHAR},
+      </if>
+      <if test="expirationTime != null">
+        expiration_time = #{expirationTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="logo != null">
+        logo = #{logo,jdbcType=VARCHAR},
+      </if>
+      <if test="describe != null">
+        describe_ = #{describe,jdbcType=VARCHAR},
+      </if>
+      <if test="passwordExpire != null">
+        password_expire = #{passwordExpire,jdbcType=INTEGER},
+      </if>
+      <if test="isMultipleLogin != null">
+        is_multiple_login = #{isMultipleLogin,jdbcType=BIT},
+      </if>
+      <if test="passwordErrorNum != null">
+        password_error_num = #{passwordErrorNum,jdbcType=INTEGER},
+      </if>
+      <if test="passwordErrorLockTime != null">
+        password_error_lock_time = #{passwordErrorLockTime,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createUser != null">
+        create_user = #{createUser,jdbcType=BIGINT},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateUser != null">
+        update_user = #{updateUser,jdbcType=BIGINT},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.runone.pinda.mbg.model.DTenant">
+    update d_tenant
+    set code = #{code,jdbcType=VARCHAR},
+      name = #{name,jdbcType=VARCHAR},
+      type = #{type,jdbcType=VARCHAR},
+      status = #{status,jdbcType=VARCHAR},
+      readonly = #{readonly,jdbcType=BIT},
+      duty = #{duty,jdbcType=VARCHAR},
+      expiration_time = #{expirationTime,jdbcType=TIMESTAMP},
+      logo = #{logo,jdbcType=VARCHAR},
+      describe_ = #{describe,jdbcType=VARCHAR},
+      password_expire = #{passwordExpire,jdbcType=INTEGER},
+      is_multiple_login = #{isMultipleLogin,jdbcType=BIT},
+      password_error_num = #{passwordErrorNum,jdbcType=INTEGER},
+      password_error_lock_time = #{passwordErrorLockTime,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      create_user = #{createUser,jdbcType=BIGINT},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      update_user = #{updateUser,jdbcType=BIGINT}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

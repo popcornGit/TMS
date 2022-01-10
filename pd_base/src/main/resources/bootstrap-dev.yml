@@ -1,8 +1,8 @@
 spring:
   cloud:
     nacos:
-      username: tms
-      password: 123456
+      username: nacos
+      password: nacos
       discovery:
         server-addr: 192.168.1.227:8848
         group: pinda-tms
@@ -25,8 +25,8 @@ spring:
       enabled: ${spring.servlet.multipart.enabled}
 
   datasource:
+    type: ${spring.datasource.druid.type}
     druid:
-      type: ${spring.datasource.druid.type}
       driver-class-name: ${spring.datasource.druid.driver-class-name}
       url: ${spring.datasource.druid.url}
       username: ${spring.datasource.druid.username}

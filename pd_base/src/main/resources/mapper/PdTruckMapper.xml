@@ -1,0 +1,291 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.runone.pinda.mbg.mapper.PdTruckMapper">
+  <resultMap id="BaseResultMap" type="com.runone.pinda.mbg.model.PdTruck">
+    <id column="id" jdbcType="VARCHAR" property="id" />
+    <result column="truck_type_id" jdbcType="VARCHAR" property="truckTypeId" />
+    <result column="fleet_id" jdbcType="VARCHAR" property="fleetId" />
+    <result column="brand" jdbcType="VARCHAR" property="brand" />
+    <result column="license_plate" jdbcType="VARCHAR" property="licensePlate" />
+    <result column="device_gps_id" jdbcType="VARCHAR" property="deviceGpsId" />
+    <result column="allowable_load" jdbcType="DECIMAL" property="allowableLoad" />
+    <result column="allowable_volume" jdbcType="DECIMAL" property="allowableVolume" />
+    <result column="truck_license_id" jdbcType="VARCHAR" property="truckLicenseId" />
+    <result column="status" jdbcType="TINYINT" property="status" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, truck_type_id, fleet_id, brand, license_plate, device_gps_id, allowable_load, 
+    allowable_volume, truck_license_id, status
+  </sql>
+  <select id="selectByExample" parameterType="com.runone.pinda.mbg.model.PdTruckExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from pd_truck
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from pd_truck
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from pd_truck
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.runone.pinda.mbg.model.PdTruckExample">
+    delete from pd_truck
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.runone.pinda.mbg.model.PdTruck">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.String">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into pd_truck (truck_type_id, fleet_id, brand, 
+      license_plate, device_gps_id, allowable_load, 
+      allowable_volume, truck_license_id, status
+      )
+    values (#{truckTypeId,jdbcType=VARCHAR}, #{fleetId,jdbcType=VARCHAR}, #{brand,jdbcType=VARCHAR}, 
+      #{licensePlate,jdbcType=VARCHAR}, #{deviceGpsId,jdbcType=VARCHAR}, #{allowableLoad,jdbcType=DECIMAL}, 
+      #{allowableVolume,jdbcType=DECIMAL}, #{truckLicenseId,jdbcType=VARCHAR}, #{status,jdbcType=TINYINT}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.runone.pinda.mbg.model.PdTruck">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.String">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into pd_truck
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="truckTypeId != null">
+        truck_type_id,
+      </if>
+      <if test="fleetId != null">
+        fleet_id,
+      </if>
+      <if test="brand != null">
+        brand,
+      </if>
+      <if test="licensePlate != null">
+        license_plate,
+      </if>
+      <if test="deviceGpsId != null">
+        device_gps_id,
+      </if>
+      <if test="allowableLoad != null">
+        allowable_load,
+      </if>
+      <if test="allowableVolume != null">
+        allowable_volume,
+      </if>
+      <if test="truckLicenseId != null">
+        truck_license_id,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="truckTypeId != null">
+        #{truckTypeId,jdbcType=VARCHAR},
+      </if>
+      <if test="fleetId != null">
+        #{fleetId,jdbcType=VARCHAR},
+      </if>
+      <if test="brand != null">
+        #{brand,jdbcType=VARCHAR},
+      </if>
+      <if test="licensePlate != null">
+        #{licensePlate,jdbcType=VARCHAR},
+      </if>
+      <if test="deviceGpsId != null">
+        #{deviceGpsId,jdbcType=VARCHAR},
+      </if>
+      <if test="allowableLoad != null">
+        #{allowableLoad,jdbcType=DECIMAL},
+      </if>
+      <if test="allowableVolume != null">
+        #{allowableVolume,jdbcType=DECIMAL},
+      </if>
+      <if test="truckLicenseId != null">
+        #{truckLicenseId,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=TINYINT},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.runone.pinda.mbg.model.PdTruckExample" resultType="java.lang.Long">
+    select count(*) from pd_truck
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update pd_truck
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=VARCHAR},
+      </if>
+      <if test="record.truckTypeId != null">
+        truck_type_id = #{record.truckTypeId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.fleetId != null">
+        fleet_id = #{record.fleetId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.brand != null">
+        brand = #{record.brand,jdbcType=VARCHAR},
+      </if>
+      <if test="record.licensePlate != null">
+        license_plate = #{record.licensePlate,jdbcType=VARCHAR},
+      </if>
+      <if test="record.deviceGpsId != null">
+        device_gps_id = #{record.deviceGpsId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.allowableLoad != null">
+        allowable_load = #{record.allowableLoad,jdbcType=DECIMAL},
+      </if>
+      <if test="record.allowableVolume != null">
+        allowable_volume = #{record.allowableVolume,jdbcType=DECIMAL},
+      </if>
+      <if test="record.truckLicenseId != null">
+        truck_license_id = #{record.truckLicenseId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.status != null">
+        status = #{record.status,jdbcType=TINYINT},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update pd_truck
+    set id = #{record.id,jdbcType=VARCHAR},
+      truck_type_id = #{record.truckTypeId,jdbcType=VARCHAR},
+      fleet_id = #{record.fleetId,jdbcType=VARCHAR},
+      brand = #{record.brand,jdbcType=VARCHAR},
+      license_plate = #{record.licensePlate,jdbcType=VARCHAR},
+      device_gps_id = #{record.deviceGpsId,jdbcType=VARCHAR},
+      allowable_load = #{record.allowableLoad,jdbcType=DECIMAL},
+      allowable_volume = #{record.allowableVolume,jdbcType=DECIMAL},
+      truck_license_id = #{record.truckLicenseId,jdbcType=VARCHAR},
+      status = #{record.status,jdbcType=TINYINT}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.runone.pinda.mbg.model.PdTruck">
+    update pd_truck
+    <set>
+      <if test="truckTypeId != null">
+        truck_type_id = #{truckTypeId,jdbcType=VARCHAR},
+      </if>
+      <if test="fleetId != null">
+        fleet_id = #{fleetId,jdbcType=VARCHAR},
+      </if>
+      <if test="brand != null">
+        brand = #{brand,jdbcType=VARCHAR},
+      </if>
+      <if test="licensePlate != null">
+        license_plate = #{licensePlate,jdbcType=VARCHAR},
+      </if>
+      <if test="deviceGpsId != null">
+        device_gps_id = #{deviceGpsId,jdbcType=VARCHAR},
+      </if>
+      <if test="allowableLoad != null">
+        allowable_load = #{allowableLoad,jdbcType=DECIMAL},
+      </if>
+      <if test="allowableVolume != null">
+        allowable_volume = #{allowableVolume,jdbcType=DECIMAL},
+      </if>
+      <if test="truckLicenseId != null">
+        truck_license_id = #{truckLicenseId,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        status = #{status,jdbcType=TINYINT},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.runone.pinda.mbg.model.PdTruck">
+    update pd_truck
+    set truck_type_id = #{truckTypeId,jdbcType=VARCHAR},
+      fleet_id = #{fleetId,jdbcType=VARCHAR},
+      brand = #{brand,jdbcType=VARCHAR},
+      license_plate = #{licensePlate,jdbcType=VARCHAR},
+      device_gps_id = #{deviceGpsId,jdbcType=VARCHAR},
+      allowable_load = #{allowableLoad,jdbcType=DECIMAL},
+      allowable_volume = #{allowableVolume,jdbcType=DECIMAL},
+      truck_license_id = #{truckLicenseId,jdbcType=VARCHAR},
+      status = #{status,jdbcType=TINYINT}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+</mapper>

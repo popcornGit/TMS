@@ -1,0 +1,306 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.runone.pinda.mbg.mapper.PdTransportLineMapper">
+  <resultMap id="BaseResultMap" type="com.runone.pinda.mbg.model.PdTransportLine">
+    <id column="id" jdbcType="VARCHAR" property="id" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="line_number" jdbcType="VARCHAR" property="lineNumber" />
+    <result column="agency_id" jdbcType="VARCHAR" property="agencyId" />
+    <result column="transport_line_type_id" jdbcType="VARCHAR" property="transportLineTypeId" />
+    <result column="start_agency_id" jdbcType="VARCHAR" property="startAgencyId" />
+    <result column="end_agency_id" jdbcType="VARCHAR" property="endAgencyId" />
+    <result column="distance" jdbcType="DECIMAL" property="distance" />
+    <result column="cost" jdbcType="DECIMAL" property="cost" />
+    <result column="estimated_time" jdbcType="DECIMAL" property="estimatedTime" />
+    <result column="status" jdbcType="TINYINT" property="status" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, name, line_number, agency_id, transport_line_type_id, start_agency_id, end_agency_id, 
+    distance, cost, estimated_time, status
+  </sql>
+  <select id="selectByExample" parameterType="com.runone.pinda.mbg.model.PdTransportLineExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from pd_transport_line
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from pd_transport_line
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from pd_transport_line
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.runone.pinda.mbg.model.PdTransportLineExample">
+    delete from pd_transport_line
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.runone.pinda.mbg.model.PdTransportLine">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.String">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into pd_transport_line (name, line_number, agency_id, 
+      transport_line_type_id, start_agency_id, end_agency_id, 
+      distance, cost, estimated_time, 
+      status)
+    values (#{name,jdbcType=VARCHAR}, #{lineNumber,jdbcType=VARCHAR}, #{agencyId,jdbcType=VARCHAR}, 
+      #{transportLineTypeId,jdbcType=VARCHAR}, #{startAgencyId,jdbcType=VARCHAR}, #{endAgencyId,jdbcType=VARCHAR}, 
+      #{distance,jdbcType=DECIMAL}, #{cost,jdbcType=DECIMAL}, #{estimatedTime,jdbcType=DECIMAL}, 
+      #{status,jdbcType=TINYINT})
+  </insert>
+  <insert id="insertSelective" parameterType="com.runone.pinda.mbg.model.PdTransportLine">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.String">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into pd_transport_line
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="name != null">
+        name,
+      </if>
+      <if test="lineNumber != null">
+        line_number,
+      </if>
+      <if test="agencyId != null">
+        agency_id,
+      </if>
+      <if test="transportLineTypeId != null">
+        transport_line_type_id,
+      </if>
+      <if test="startAgencyId != null">
+        start_agency_id,
+      </if>
+      <if test="endAgencyId != null">
+        end_agency_id,
+      </if>
+      <if test="distance != null">
+        distance,
+      </if>
+      <if test="cost != null">
+        cost,
+      </if>
+      <if test="estimatedTime != null">
+        estimated_time,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="lineNumber != null">
+        #{lineNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="agencyId != null">
+        #{agencyId,jdbcType=VARCHAR},
+      </if>
+      <if test="transportLineTypeId != null">
+        #{transportLineTypeId,jdbcType=VARCHAR},
+      </if>
+      <if test="startAgencyId != null">
+        #{startAgencyId,jdbcType=VARCHAR},
+      </if>
+      <if test="endAgencyId != null">
+        #{endAgencyId,jdbcType=VARCHAR},
+      </if>
+      <if test="distance != null">
+        #{distance,jdbcType=DECIMAL},
+      </if>
+      <if test="cost != null">
+        #{cost,jdbcType=DECIMAL},
+      </if>
+      <if test="estimatedTime != null">
+        #{estimatedTime,jdbcType=DECIMAL},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=TINYINT},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.runone.pinda.mbg.model.PdTransportLineExample" resultType="java.lang.Long">
+    select count(*) from pd_transport_line
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update pd_transport_line
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=VARCHAR},
+      </if>
+      <if test="record.name != null">
+        name = #{record.name,jdbcType=VARCHAR},
+      </if>
+      <if test="record.lineNumber != null">
+        line_number = #{record.lineNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="record.agencyId != null">
+        agency_id = #{record.agencyId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.transportLineTypeId != null">
+        transport_line_type_id = #{record.transportLineTypeId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.startAgencyId != null">
+        start_agency_id = #{record.startAgencyId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.endAgencyId != null">
+        end_agency_id = #{record.endAgencyId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.distance != null">
+        distance = #{record.distance,jdbcType=DECIMAL},
+      </if>
+      <if test="record.cost != null">
+        cost = #{record.cost,jdbcType=DECIMAL},
+      </if>
+      <if test="record.estimatedTime != null">
+        estimated_time = #{record.estimatedTime,jdbcType=DECIMAL},
+      </if>
+      <if test="record.status != null">
+        status = #{record.status,jdbcType=TINYINT},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update pd_transport_line
+    set id = #{record.id,jdbcType=VARCHAR},
+      name = #{record.name,jdbcType=VARCHAR},
+      line_number = #{record.lineNumber,jdbcType=VARCHAR},
+      agency_id = #{record.agencyId,jdbcType=VARCHAR},
+      transport_line_type_id = #{record.transportLineTypeId,jdbcType=VARCHAR},
+      start_agency_id = #{record.startAgencyId,jdbcType=VARCHAR},
+      end_agency_id = #{record.endAgencyId,jdbcType=VARCHAR},
+      distance = #{record.distance,jdbcType=DECIMAL},
+      cost = #{record.cost,jdbcType=DECIMAL},
+      estimated_time = #{record.estimatedTime,jdbcType=DECIMAL},
+      status = #{record.status,jdbcType=TINYINT}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.runone.pinda.mbg.model.PdTransportLine">
+    update pd_transport_line
+    <set>
+      <if test="name != null">
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="lineNumber != null">
+        line_number = #{lineNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="agencyId != null">
+        agency_id = #{agencyId,jdbcType=VARCHAR},
+      </if>
+      <if test="transportLineTypeId != null">
+        transport_line_type_id = #{transportLineTypeId,jdbcType=VARCHAR},
+      </if>
+      <if test="startAgencyId != null">
+        start_agency_id = #{startAgencyId,jdbcType=VARCHAR},
+      </if>
+      <if test="endAgencyId != null">
+        end_agency_id = #{endAgencyId,jdbcType=VARCHAR},
+      </if>
+      <if test="distance != null">
+        distance = #{distance,jdbcType=DECIMAL},
+      </if>
+      <if test="cost != null">
+        cost = #{cost,jdbcType=DECIMAL},
+      </if>
+      <if test="estimatedTime != null">
+        estimated_time = #{estimatedTime,jdbcType=DECIMAL},
+      </if>
+      <if test="status != null">
+        status = #{status,jdbcType=TINYINT},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.runone.pinda.mbg.model.PdTransportLine">
+    update pd_transport_line
+    set name = #{name,jdbcType=VARCHAR},
+      line_number = #{lineNumber,jdbcType=VARCHAR},
+      agency_id = #{agencyId,jdbcType=VARCHAR},
+      transport_line_type_id = #{transportLineTypeId,jdbcType=VARCHAR},
+      start_agency_id = #{startAgencyId,jdbcType=VARCHAR},
+      end_agency_id = #{endAgencyId,jdbcType=VARCHAR},
+      distance = #{distance,jdbcType=DECIMAL},
+      cost = #{cost,jdbcType=DECIMAL},
+      estimated_time = #{estimatedTime,jdbcType=DECIMAL},
+      status = #{status,jdbcType=TINYINT}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+</mapper>

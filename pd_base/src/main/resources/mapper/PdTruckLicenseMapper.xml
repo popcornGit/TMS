@@ -1,0 +1,322 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.runone.pinda.mbg.mapper.PdTruckLicenseMapper">
+  <resultMap id="BaseResultMap" type="com.runone.pinda.mbg.model.PdTruckLicense">
+    <id column="id" jdbcType="VARCHAR" property="id" />
+    <result column="truck_id" jdbcType="VARCHAR" property="truckId" />
+    <result column="engine_number" jdbcType="VARCHAR" property="engineNumber" />
+    <result column="registration_date" jdbcType="DATE" property="registrationDate" />
+    <result column="mandatory_scrap" jdbcType="DATE" property="mandatoryScrap" />
+    <result column="expiration_date" jdbcType="DATE" property="expirationDate" />
+    <result column="overall_quality" jdbcType="DECIMAL" property="overallQuality" />
+    <result column="allowable_weight" jdbcType="DECIMAL" property="allowableWeight" />
+    <result column="outside_dimensions" jdbcType="VARCHAR" property="outsideDimensions" />
+    <result column="validity_period" jdbcType="DATE" property="validityPeriod" />
+    <result column="transport_certificate_number" jdbcType="VARCHAR" property="transportCertificateNumber" />
+    <result column="picture" jdbcType="VARCHAR" property="picture" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, truck_id, engine_number, registration_date, mandatory_scrap, expiration_date, 
+    overall_quality, allowable_weight, outside_dimensions, validity_period, transport_certificate_number, 
+    picture
+  </sql>
+  <select id="selectByExample" parameterType="com.runone.pinda.mbg.model.PdTruckLicenseExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from pd_truck_license
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from pd_truck_license
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from pd_truck_license
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.runone.pinda.mbg.model.PdTruckLicenseExample">
+    delete from pd_truck_license
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.runone.pinda.mbg.model.PdTruckLicense">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.String">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into pd_truck_license (truck_id, engine_number, registration_date, 
+      mandatory_scrap, expiration_date, overall_quality, 
+      allowable_weight, outside_dimensions, validity_period, 
+      transport_certificate_number, picture)
+    values (#{truckId,jdbcType=VARCHAR}, #{engineNumber,jdbcType=VARCHAR}, #{registrationDate,jdbcType=DATE}, 
+      #{mandatoryScrap,jdbcType=DATE}, #{expirationDate,jdbcType=DATE}, #{overallQuality,jdbcType=DECIMAL}, 
+      #{allowableWeight,jdbcType=DECIMAL}, #{outsideDimensions,jdbcType=VARCHAR}, #{validityPeriod,jdbcType=DATE}, 
+      #{transportCertificateNumber,jdbcType=VARCHAR}, #{picture,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.runone.pinda.mbg.model.PdTruckLicense">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.String">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into pd_truck_license
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="truckId != null">
+        truck_id,
+      </if>
+      <if test="engineNumber != null">
+        engine_number,
+      </if>
+      <if test="registrationDate != null">
+        registration_date,
+      </if>
+      <if test="mandatoryScrap != null">
+        mandatory_scrap,
+      </if>
+      <if test="expirationDate != null">
+        expiration_date,
+      </if>
+      <if test="overallQuality != null">
+        overall_quality,
+      </if>
+      <if test="allowableWeight != null">
+        allowable_weight,
+      </if>
+      <if test="outsideDimensions != null">
+        outside_dimensions,
+      </if>
+      <if test="validityPeriod != null">
+        validity_period,
+      </if>
+      <if test="transportCertificateNumber != null">
+        transport_certificate_number,
+      </if>
+      <if test="picture != null">
+        picture,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="truckId != null">
+        #{truckId,jdbcType=VARCHAR},
+      </if>
+      <if test="engineNumber != null">
+        #{engineNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="registrationDate != null">
+        #{registrationDate,jdbcType=DATE},
+      </if>
+      <if test="mandatoryScrap != null">
+        #{mandatoryScrap,jdbcType=DATE},
+      </if>
+      <if test="expirationDate != null">
+        #{expirationDate,jdbcType=DATE},
+      </if>
+      <if test="overallQuality != null">
+        #{overallQuality,jdbcType=DECIMAL},
+      </if>
+      <if test="allowableWeight != null">
+        #{allowableWeight,jdbcType=DECIMAL},
+      </if>
+      <if test="outsideDimensions != null">
+        #{outsideDimensions,jdbcType=VARCHAR},
+      </if>
+      <if test="validityPeriod != null">
+        #{validityPeriod,jdbcType=DATE},
+      </if>
+      <if test="transportCertificateNumber != null">
+        #{transportCertificateNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="picture != null">
+        #{picture,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.runone.pinda.mbg.model.PdTruckLicenseExample" resultType="java.lang.Long">
+    select count(*) from pd_truck_license
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update pd_truck_license
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=VARCHAR},
+      </if>
+      <if test="record.truckId != null">
+        truck_id = #{record.truckId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.engineNumber != null">
+        engine_number = #{record.engineNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="record.registrationDate != null">
+        registration_date = #{record.registrationDate,jdbcType=DATE},
+      </if>
+      <if test="record.mandatoryScrap != null">
+        mandatory_scrap = #{record.mandatoryScrap,jdbcType=DATE},
+      </if>
+      <if test="record.expirationDate != null">
+        expiration_date = #{record.expirationDate,jdbcType=DATE},
+      </if>
+      <if test="record.overallQuality != null">
+        overall_quality = #{record.overallQuality,jdbcType=DECIMAL},
+      </if>
+      <if test="record.allowableWeight != null">
+        allowable_weight = #{record.allowableWeight,jdbcType=DECIMAL},
+      </if>
+      <if test="record.outsideDimensions != null">
+        outside_dimensions = #{record.outsideDimensions,jdbcType=VARCHAR},
+      </if>
+      <if test="record.validityPeriod != null">
+        validity_period = #{record.validityPeriod,jdbcType=DATE},
+      </if>
+      <if test="record.transportCertificateNumber != null">
+        transport_certificate_number = #{record.transportCertificateNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="record.picture != null">
+        picture = #{record.picture,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update pd_truck_license
+    set id = #{record.id,jdbcType=VARCHAR},
+      truck_id = #{record.truckId,jdbcType=VARCHAR},
+      engine_number = #{record.engineNumber,jdbcType=VARCHAR},
+      registration_date = #{record.registrationDate,jdbcType=DATE},
+      mandatory_scrap = #{record.mandatoryScrap,jdbcType=DATE},
+      expiration_date = #{record.expirationDate,jdbcType=DATE},
+      overall_quality = #{record.overallQuality,jdbcType=DECIMAL},
+      allowable_weight = #{record.allowableWeight,jdbcType=DECIMAL},
+      outside_dimensions = #{record.outsideDimensions,jdbcType=VARCHAR},
+      validity_period = #{record.validityPeriod,jdbcType=DATE},
+      transport_certificate_number = #{record.transportCertificateNumber,jdbcType=VARCHAR},
+      picture = #{record.picture,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.runone.pinda.mbg.model.PdTruckLicense">
+    update pd_truck_license
+    <set>
+      <if test="truckId != null">
+        truck_id = #{truckId,jdbcType=VARCHAR},
+      </if>
+      <if test="engineNumber != null">
+        engine_number = #{engineNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="registrationDate != null">
+        registration_date = #{registrationDate,jdbcType=DATE},
+      </if>
+      <if test="mandatoryScrap != null">
+        mandatory_scrap = #{mandatoryScrap,jdbcType=DATE},
+      </if>
+      <if test="expirationDate != null">
+        expiration_date = #{expirationDate,jdbcType=DATE},
+      </if>
+      <if test="overallQuality != null">
+        overall_quality = #{overallQuality,jdbcType=DECIMAL},
+      </if>
+      <if test="allowableWeight != null">
+        allowable_weight = #{allowableWeight,jdbcType=DECIMAL},
+      </if>
+      <if test="outsideDimensions != null">
+        outside_dimensions = #{outsideDimensions,jdbcType=VARCHAR},
+      </if>
+      <if test="validityPeriod != null">
+        validity_period = #{validityPeriod,jdbcType=DATE},
+      </if>
+      <if test="transportCertificateNumber != null">
+        transport_certificate_number = #{transportCertificateNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="picture != null">
+        picture = #{picture,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.runone.pinda.mbg.model.PdTruckLicense">
+    update pd_truck_license
+    set truck_id = #{truckId,jdbcType=VARCHAR},
+      engine_number = #{engineNumber,jdbcType=VARCHAR},
+      registration_date = #{registrationDate,jdbcType=DATE},
+      mandatory_scrap = #{mandatoryScrap,jdbcType=DATE},
+      expiration_date = #{expirationDate,jdbcType=DATE},
+      overall_quality = #{overallQuality,jdbcType=DECIMAL},
+      allowable_weight = #{allowableWeight,jdbcType=DECIMAL},
+      outside_dimensions = #{outsideDimensions,jdbcType=VARCHAR},
+      validity_period = #{validityPeriod,jdbcType=DATE},
+      transport_certificate_number = #{transportCertificateNumber,jdbcType=VARCHAR},
+      picture = #{picture,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+</mapper>
